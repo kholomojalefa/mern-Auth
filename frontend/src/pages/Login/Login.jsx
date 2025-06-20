@@ -2,11 +2,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../../utils/api"; // use axios if not using this
 import "./Login.css";
+import toast from "react-hot-toast";
+import useAuth from "../../hooks/useAuth";
 
 const Login = () => {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { setUser } = useAuth(); //access context
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -15,11 +18,21 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await API.post("/auth/login", form);
-      localStorage.setItem("token", res.data.token);
-      navigate("/");
+      await API.post("/auth/login", form, {
+        withCredentials: true, //cookies
+      });
+
+      //Fetch and set the user
+      const res = await API.get("/auth/me", {
+        withCredentials: true,
+      });
+      setUser(res.data);
+
+      toast.success("Login Successful!");
+      navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data?.error || "Login failed");
+      toast.error("Login Failed!");
     }
   };
 
@@ -45,6 +58,7 @@ const Login = () => {
           required
         />
         <button type="submit">Login</button>
+        <button onClick={() => navigate("/register")}>Register</button>
       </form>
     </div>
   );

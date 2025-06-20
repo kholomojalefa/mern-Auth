@@ -1,0 +1,18 @@
+.dashboard-container,
+.profile-container {
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+  text-align: center;
+}
+button {
+  margin: 1rem 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #646cff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
