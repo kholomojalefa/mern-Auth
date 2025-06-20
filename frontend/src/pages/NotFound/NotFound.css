@@ -1,0 +1,66 @@
+.notfound-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: #213547;
+  padding: 2rem;
+  text-align: center;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.notfound-container h1 {
+  font-size: 6rem;
+  margin: 0;
+  color: #3366cc;
+}
+
+.notfound-container p {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.emoji {
+  font-size: 4rem;
+  margin: 1rem 0;
+  animation: bounce 1.5s infinite;
+}
+
+.back-button {
+  margin-top: 1.5rem;
+  text-decoration: none;
+  color: #fff;
+  background-color: #3366cc;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.back-button:hover {
+  background-color: #254eda;
+  color: #fff;
+}
+
+/* Simple Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}

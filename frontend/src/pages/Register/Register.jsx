@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../../utils/api";
 import "./Register.css";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
@@ -16,9 +17,11 @@ const Register = () => {
     e.preventDefault();
     try {
       await API.post("/auth/register", form);
-      navigate("/login");
+      toast.success("Registration Successful!");
+      navigate("/dashboard"); //auto-login and redirect
     } catch (err) {
       setError(err.response?.data?.error || "Registration failed");
+      toast.error("Registration Failed!");
     }
   };
 
