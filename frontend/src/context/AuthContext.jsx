@@ -9,10 +9,14 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      const res = await axios.get("/auth/me");
-      setUser(res.data);
+      const res = await axios.get("/auth/me", { withCredentials: true });
+      setUser(res.data); //when user is logged in
     } catch (error) {
-      setUser(null);
+      if (error.response?.status === 401) {
+        setUser(null); //user not logged in
+      } else {
+        console.error("Auth check error:", error); //when theres an actual error
+      }
     } finally {
       setLoading(false);
     }

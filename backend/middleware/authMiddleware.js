@@ -3,7 +3,7 @@ const User = require("../models/User");
 
 const verifyToken = async (req, res, next) => {
   try {
-    const token = req.cookies.token; // Read from cookies
+    const token = req.cookies.token || req.headers.authorization?.split(" ")[1]; //for mobile even
 
     if (!token) {
       return res.status(401).json({ error: "Not authorized, no token" });

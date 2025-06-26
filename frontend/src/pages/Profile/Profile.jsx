@@ -1,4 +1,3 @@
-import Spinner from "../../components/Spinner";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
@@ -15,7 +14,7 @@ const Profile = () => {
       <p>
         <strong>Email:</strong> {user.email}
       </p>
-      <button onClick={() => navigate("/dashboard")}>Go to Profile</button>
+      <button onClick={() => navigate("/dashboard")}>Back</button>
     </div>
   );
 };

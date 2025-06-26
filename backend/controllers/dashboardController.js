@@ -1,5 +1,5 @@
 const dashboard = (req, res) => {
-  res.json({
+  return res.status(200).json({
     message: `Hello ${req.user.username}, this is your protected dashboard.`,
     user: req.user,
   });
