@@ -4,7 +4,7 @@ const logout = (req, res) => {
     secure: process.env.NODE_ENV === "production",
     sameSite: "Strict",
   });
-  return res.status(200).json({ message: "Logged out" });
+  return res.status(200).json({ message: "Logged out successfully" });
 };
 
 module.exports = logout;

@@ -26,3 +26,18 @@
 .dashboard-container button:hover {
   background-color: #c0392b;
 }
+
+.admin-badge {
+  color: white;
+  background-color: #d32f2f;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+.user-badge {
+  color: white;
+  background-color: #1976d2;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}

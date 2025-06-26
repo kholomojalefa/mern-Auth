@@ -28,6 +28,17 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <h1>Welcome, {user.username} 👋</h1>
       <p>Email: {user.email}</p>
+      <p>
+        Role:{" "}
+        <span className={user.role === "admin" ? "admin-badge" : "user-badge"}>
+          {user.role}
+        </span>
+      </p>
+      {user.role === "admin" && (
+        <button onClick={() => navigate("/dashboard/admin")}>
+          Go to Admin Panel
+        </button>
+      )}
 
       <button onClick={() => navigate("/dashboard/profile")}>
         Go to Profile
