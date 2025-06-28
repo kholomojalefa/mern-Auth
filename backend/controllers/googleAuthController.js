@@ -26,7 +26,7 @@ const googleAuth = async (req, res) => {
         email,
         username: name.split(" ")[0].toLowerCase() + Date.now(), // make a username e.g kholo1718890993052
         password: process.env.GOOGLE_SECRET_PASSWORD,
-        role,
+        role: "user",
         authType: "google",
       });
     }

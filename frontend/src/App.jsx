@@ -1,26 +1,26 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Register from "./pages/Auth/Register";
 import Login from "./pages/Auth/Login";
-import Dashboard from "./pages/Dashboard";
-import NotFound from "./pages/NotFound";
-import Profile from "./pages/Profile";
 import Forgot from "./pages/Auth/ForgotPassword";
 import Reset from "./pages/Auth/ResetPassword";
+import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
 import AdminPanel from "./pages/AdminPanel";
+import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 
 function App() {
   return (
     <Routes>
-      {/* public routes */}
-      <Route path="/" element={<Navigate to="/login" />} />
+      {/* Public Routes */}
+      <Route path="/" element={<Navigate to="/dashboard" />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/forgot-password" element={<Forgot />} />
       <Route path="/reset-password/:token" element={<Reset />} />
 
-      {/* protected routes */}
+      {/* Protected User Routes */}
       <Route
         path="/dashboard"
         element={
@@ -37,18 +37,10 @@ function App() {
           </ProtectedRoute>
         }
       />
+
+      {/* Admin Routes */}
       <Route
         path="/admin"
-        element={
-          <ProtectedRoute allowedRoles={["admin"]}>
-            <AdminPanel />
-          </ProtectedRoute>
-        }
-      />
-
-      {/* Admin route */}
-      <Route
-        path="/dashboard/admin"
         element={
           <AdminRoute>
             <AdminPanel />
@@ -56,7 +48,7 @@ function App() {
         }
       />
 
-      {/* catch all routes */}
+      {/* Catch-All 404 */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

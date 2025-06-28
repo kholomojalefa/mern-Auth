@@ -1,27 +1,31 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../../../utils/api";
-import "./Register.css";
 import toast from "react-hot-toast";
+import "./Register.css";
 
 const Register = () => {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
     try {
       await API.post("/auth/register", form);
       toast.success("Registration Successful!");
-      navigate("/dashboard"); //auto-login and redirect
+      navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data?.error || "Registration failed");
       toast.error("Registration Failed!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,8 +58,11 @@ const Register = () => {
           onChange={handleChange}
           required
         />
-        <button type="submit">Register</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Creating..." : "Register"}
+        </button>
       </form>
+      <button onClick={() => navigate("/login")}>Cancel</button>
     </div>
   );
 };

@@ -1,30 +1,31 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
 import axios from "../utils/api";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // Useful to prevent flicker
+  const [loading, setLoading] = useState(true);
 
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
     try {
-      const res = await axios.get("/auth/me", { withCredentials: true });
-      setUser(res.data); //when user is logged in
+      const res = await axios.get("/auth/me");
+      setUser(res.data);
     } catch (error) {
       if (error.response?.status === 401) {
-        setUser(null); //user not logged in
+        setUser(null);
       } else {
-        console.error("Auth check error:", error); //when theres an actual error
+        console.error("Auth fetch error:", error);
       }
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [fetchUser]);
 
   return (
     <AuthContext.Provider value={{ user, setUser, loading }}>
