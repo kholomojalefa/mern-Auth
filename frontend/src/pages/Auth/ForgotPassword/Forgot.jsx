@@ -6,16 +6,23 @@ import "./forgot.css";
 const Forgot = () => {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!email) return toast.error("Email is required");
+
     try {
+      setLoading(true);
       await API.post("/auth/forgot-password", { email });
       setSubmitted(true);
       toast.success("Reset link sent to your email!");
     } catch (err) {
       toast.error("Error sending reset link");
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -23,7 +30,7 @@ const Forgot = () => {
     <div className="forgot-container">
       <h2>Forgot Password</h2>
       {submitted ? (
-        <p>Check your email for a reset link.</p>
+        <p className="success-msg">Check your email for a reset link.</p>
       ) : (
         <form onSubmit={handleSubmit}>
           <input
@@ -31,9 +38,12 @@ const Forgot = () => {
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            disabled={loading}
             required
           />
-          <button type="submit">Send Reset Link</button>
+          <button type="submit" disabled={loading}>
+            {loading ? "Sending..." : "Send Reset Link"}
+          </button>
         </form>
       )}
     </div>

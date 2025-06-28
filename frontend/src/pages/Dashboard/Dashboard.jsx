@@ -1,7 +1,7 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
+import "./Dashboard.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -9,42 +9,45 @@ const Dashboard = () => {
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
 
-  //logout handler
   const handleLogout = async () => {
     try {
       await fetch(`${API_URL}/auth/logout`, {
-        method: "POST",
+        method: "GET",
         credentials: "include",
       });
-      setUser(null); // clear auth state
-      toast.success("Logout Successful!");
+      setUser(null);
+      toast.success("You’ve been logged out!");
       navigate("/login");
-    } catch (err) {
-      toast.error("Could not log out. Try again.");
+    } catch {
+      toast.error("Logout failed, please try again.");
     }
   };
 
   return (
     <div className="dashboard-container">
-      <h1>Welcome, {user.username} 👋</h1>
-      <p>Email: {user.email}</p>
-      <p>
-        Role:{" "}
-        <span className={user.role === "admin" ? "admin-badge" : "user-badge"}>
-          {user.role}
-        </span>
-      </p>
-      {user.role === "admin" && (
-        <button onClick={() => navigate("/dashboard/admin")}>
-          Go to Admin Panel
+      <h1>
+        👋 Welcome back, <span className="highlight">{user.username}</span>
+      </h1>
+
+      <div className="user-info">
+        <p>
+          <strong>Email:</strong> {user.email}
+        </p>
+        <p>
+          <strong>Role:</strong>{" "}
+          <span className={`role-badge ${user.role}`}>{user.role}</span>
+        </p>
+      </div>
+
+      <div className="dashboard-actions">
+        {user.role === "admin" && (
+          <button onClick={() => navigate("/admin")}>🛠 Admin Panel</button>
+        )}
+        <button onClick={() => navigate("/dashboard/profile")}>
+          👤 Profile
         </button>
-      )}
-
-      <button onClick={() => navigate("/dashboard/profile")}>
-        Go to Profile
-      </button>
-
-      <button onClick={handleLogout}>Logout</button>
+        <button onClick={handleLogout}>🚪 Logout</button>
+      </div>
     </div>
   );
 };

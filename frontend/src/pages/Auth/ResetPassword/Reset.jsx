@@ -7,25 +7,27 @@ import "./reset.css";
 const Reset = () => {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+  const [loading, setLoading] = useState(false);
   const { token } = useParams();
-
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== confirm) {
-      toast.error("Passwords do not match");
-      return;
+      return toast.error("Passwords do not match");
     }
 
     try {
+      setLoading(true);
       await API.patch(`/auth/reset-password/${token}`, { password });
       toast.success("Password reset successful!");
       navigate("/login");
     } catch (err) {
       toast.error("Reset failed. Try again.");
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -47,7 +49,9 @@ const Reset = () => {
           onChange={(e) => setConfirm(e.target.value)}
           required
         />
-        <button type="submit">Reset Password</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Resetting..." : "Reset Password"}
+        </button>
       </form>
     </div>
   );
